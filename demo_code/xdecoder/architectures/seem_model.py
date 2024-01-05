@@ -7,7 +7,7 @@
 
 import random
 from typing import Tuple
-
+import matplotlib.pyplot as plt 
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -811,9 +811,44 @@ class SEEM_Model(nn.Module):
         return {'spatial_query_pos_mask': pos_mask, 'spatial_query_neg_mask': neg_mask, 'false_positive_mask': fp}
 
     def semantic_inference(self, mask_cls, mask_pred):
+
         mask_cls = F.softmax(mask_cls, dim=-1)[..., :-1]
         mask_pred = mask_pred.sigmoid()
         semseg = torch.einsum("qc,qhw->chw", mask_cls, mask_pred)
+
+
+        # mask_cls = mask_cls.to(torch.float64)
+        # mask_pred = mask_pred.to(torch.float64)
+        # semseg = torch.einsum("qc,qhw->chw", mask_cls, mask_pred).to(torch.float64)
+
+        # max_values, _ =semseg.max(dim=0, keepdim=True)
+        # max_abs_value = torch.max(torch.abs(semseg))
+        # std=torch.std(semseg)
+        # mean=torch.mean(semseg)
+
+        # print('std')
+        # print(max_abs_value)
+        # print(std)
+        # print(mean)
+        # print('--------')
+
+        # condition = semseg > mean+2*std
+        # condition2 = semseg < mean-2*std
+        # semseg[condition] =  mean+2*std
+        # semseg[condition2] =  mean-2*std
+
+        # semseg = semseg/(max_abs_value/mean)
+        # semseg = semseg/(max_abs_value/(torch.abs(std)/100))
+        # print(torch.max(semseg))
+        # print(torch.min(semseg))
+        # max_logits, _ = semseg.max(dim=1, keepdim=True)
+        # semseg = semseg*std/(max_abs_value*100)
+        # semseg=semseg-max_logits
+        # semseg = semseg/max_abs_value
+
+
+        # print(mask_pred.size())
+        # print(mask_cls.size())
         return semseg
 
     def panoptic_inference(self, mask_cls, mask_pred):

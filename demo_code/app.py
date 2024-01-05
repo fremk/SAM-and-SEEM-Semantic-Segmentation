@@ -67,10 +67,12 @@ audio = whisper.load_model("base")
 
 @torch.no_grad()
 def inference(image, task, *args, **kwargs):
+    print("-------------------------------------------------")
     with torch.autocast(device_type='cuda', dtype=torch.float16):
         if 'Video' in task:
             return interactive_infer_video(model, audio, image, task, *args, **kwargs)
         else:
+            print(interactive_infer_image.__globals__['__file__'])
             return interactive_infer_image(model, audio, image, task, *args, **kwargs)
 
 class ImageMask(gr.components.Image):
