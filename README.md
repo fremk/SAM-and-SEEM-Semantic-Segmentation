@@ -5,6 +5,15 @@
 
 This project is based on two state of the art promptable segmentation models: **S**egment **A**nything **M**odel, [**SAM**](https://arxiv.org/abs/2304.02643) [[1]](#1), and **S**egment **E**verything **E**verywhere with **M**ultimodal Prompts, [**SEEM**](https://arxiv.org/abs/2304.06718) [[2]](#2). The main idea is to leverage SAM's ability to generate high quality masks, without a label, which will then be used as prompts for SEEM which will in its turn label them.
 
+First clone this repos using
+```sh
+git clone https://github.com/fremk/SAM-and-SEEM-Semantic-Segmentation.git
+```
+Then clone Segment Anything Model's repo into this one using
+```sh
+cd SAM-and-SEEM-Semantic-Segmentation
+git clone https://github.com/facebookresearch/segment-anything.git
+```
 ## Environment setup
 
 I have used a conda environment, the environment and libraries setup is pretty straightforward.
@@ -19,7 +28,7 @@ Now that you have created your virtual environment and activated it, it's time t
 
 ### Installing the requirements
 ```sh
-cd pipeline-semantic-segmentation
+cd SAM-and-SEEM-Semantic-Segmentation
 pip install -r requirements1.txt
 pip install -r requirements2.txt
 cd segment_anything
@@ -36,12 +45,12 @@ Now you're ready to go.
 ##  Main scripts 
 
 ### Classes definition
-The classes are defined in the `pipeline-semantic-segmentation/demo_code/utils/constants.py` where you can notice two sets of classes_cmap and cmap dictionaries. Each pair is for a different number of classes: the first for the original 28 classes before merging the classes where there is confusion and disregarding some classes. And the other is for 19 classes after merging and disregarding some of them. You can alternate between depending if you have merged the classes or not (using the ```final_merging()``` function defined in ```pipeline-semantic-segmentation/demo_code/utils/util.py```). The pipeline originally generates the semantic segmentation of the image using the 28 classes, if you wish to merge the classes and disregard the badly matched ones, use the `final_mapping()` function.
+The classes are defined in the `SAM-and-SEEM-Semantic-Segmentation/demo_code/utils/constants.py` where you can notice two sets of classes_cmap and cmap dictionaries. Each pair is for a different number of classes: the first for the original 28 classes before merging the classes where there is confusion and disregarding some classes. And the other is for 19 classes after merging and disregarding some of them. You can alternate between depending if you have merged the classes or not (using the ```final_merging()``` function defined in ```SAM-and-SEEM-Semantic-Segmentation/demo_code/utils/util.py```). The pipeline originally generates the semantic segmentation of the image using the 28 classes, if you wish to merge the classes and disregard the badly matched ones, use the `final_mapping()` function.
 
 In addition to that you can see the mapping from **COCO** classes to our classes in the `constants.py` as well.
 
 ### Image segmentation
-The main script to generate mass annotations is `SEEMM_SAM/demo_code/inference_total.py`, modify it to save the pipeline segmentation, seem segmentation and seem logits under a specific path. A second script, `pipeline-semantic-segmentation/demo_code/inference_parallel.py`, is used to parallelize the process by dividing the total images into multiple batches and launch them in parallel as multiple processes on different GPUs. It basically launches the `inference_total.py` script many times but with different batches of images.
+The main script to generate mass annotations is `SEEMM_SAM/demo_code/inference_total.py`, modify it to save the pipeline segmentation, seem segmentation and seem logits under a specific path. A second script, `SAM-and-SEEM-Semantic-Segmentation/demo_code/inference_parallel.py`, is used to parallelize the process by dividing the total images into multiple batches and launch them in parallel as multiple processes on different GPUs. It basically launches the `inference_total.py` script many times but with different batches of images.
 
 After setting the corresponding set of images in `inference_total.py`, you can launch a single process using: 
 ```sh
@@ -83,11 +92,11 @@ def seem_inference(image, sam_masks)
     #. . .
     return semantic_segmentation, . . .
 ```
-can be found in `pipeline-semantic-segmentation/demo_code/utils/util.py`. If you wish to experiment with other combinations from filtering of the masks to filling the unsegmented areas to strategies to label the masks etc. these are the functions to modify.
+can be found in `SAM-and-SEEM-Semantic-Segmentation/demo_code/utils/util.py`. If you wish to experiment with other combinations from filtering of the masks to filling the unsegmented areas to strategies to label the masks etc. these are the functions to modify.
 
 ## Jupyter notebooks
 
-`pipeline-semantic-segmentation/demo_code/example.ipynb` shows an example of an image segmented by the pipeline. This includes all the steps: from generating the masks using SAM to labeling the full image.
+`SAM-and-SEEM-Semantic-Segmentation/demo_code/example.ipynb` shows an example of an image segmented by the pipeline. This includes all the steps: from generating the masks using SAM to labeling the full image.
 
 <a id="1">[1]</a>:
 
