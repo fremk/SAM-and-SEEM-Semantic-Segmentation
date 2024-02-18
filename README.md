@@ -50,7 +50,7 @@ The classes are defined in the `Semantic-SAM/demo_code/utils/constants.py` where
 In addition to that you can see the mapping from **COCO** classes to our classes in the `constants.py` as well.
 
 ### Image segmentation
-The main script to generate mass annotations is `SEEMM_SAM/demo_code/inference_total.py`, modify it to save the pipeline segmentation, seem segmentation and seem logits under a specific path. A second script, `Semantic-SAM/demo_code/inference_parallel.py`, is used to parallelize the process by dividing the total images into multiple batches and launch them in parallel as multiple processes on different GPUs. It basically launches the `inference_total.py` script many times but with different batches of images.
+The main script to generate mass annotations is `Semantic-SAM/demo_code/inference_total.py`, modify it to save the pipeline segmentation, seem segmentation and seem logits under a specific path. A second script, `Semantic-SAM/demo_code/inference_parallel.py`, is used to parallelize the process by dividing the total images into multiple batches and launch them in parallel as multiple processes on different GPUs. It basically launches the `inference_total.py` script many times but with different batches of images.
 
 After setting the corresponding set of images in `inference_total.py`, you can launch a single process using: 
 ```sh
