@@ -7,11 +7,11 @@ This project is based on two state of the art promptable segmentation models: **
 
 First clone this repos using
 ```sh
-git clone https://github.com/fremk/SAM-and-SEEM-Semantic-Segmentation.git
+git clone https://github.com/fremk/Semantic-SAM.git
 ```
 Then clone Segment Anything Model's repo into this one using
 ```sh
-cd SAM-and-SEEM-Semantic-Segmentation
+cd Semantic-SAM
 git clone https://github.com/facebookresearch/segment-anything.git
 ```
 ## Environment setup
