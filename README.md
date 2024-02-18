@@ -37,7 +37,7 @@ pip install -e .
 ### Downloading the weights
 ```sh
 wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
-cd ..
+cd ../demo_code
 wget https://huggingface.co/xdecoder/SEEM/resolve/main/seem_focall_v1.pt
 ```
 Now you're ready to go.
